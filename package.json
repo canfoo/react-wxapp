@@ -1,0 +1,23 @@
+{
+  "name": "react-wxapp",
+  "version": "1.0.0",
+  "description": "react-wxapp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/canfoo/react-wxapp.git"
+  },
+  "keywords": [
+    "react",
+    "wxapp"
+  ],
+  "author": "canfoo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/canfoo/react-wxapp/issues"
+  },
+  "homepage": "https://github.com/canfoo/react-wxapp#readme"
+}

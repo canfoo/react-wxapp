@@ -1,0 +1,35 @@
+.container {
+  color: orange;
+  font-size: 30px;
+  padding: 30px;
+}
+.btn {
+  display: inline-block;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #dcdfe6;
+  color: #606266;
+  -webkit-appearance: none;
+  text-align: center;
+  box-sizing: border-box;
+  outline: none;
+  margin: 0;
+  transition: .1s;
+  font-weight: 500;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  padding: 24px 40px;
+  font-size: 29px;
+  border-radius: 8px;
+  color: #fff;
+  background-color: #409eff;
+  border-color: #409eff;
+}
+.num {
+  font-size: 35px;
+  margin-top: 20px;
+  color: #000;
+}
