@@ -1,4 +1,4 @@
-import Leo, { Component } from '@leojs/leo'
+import { Component } from '../../../packages/compile/component'
 import { View, Text } from '@leojs/components'
 import './index.css'
 
