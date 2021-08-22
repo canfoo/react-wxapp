@@ -1,6 +1,6 @@
-import { Component } from '../../../packages/compile/component'
-import { View, Text } from '@leojs/components'
-import './index.css'
+import { Component } from '../../../lib/compile-app/app'
+import { View, Text } from '../../../lib/compile-app/component'
+// import './index.css'
 
 class Index extends Component {
   constructor() {

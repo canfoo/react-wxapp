@@ -1,5 +1,5 @@
-import Leo, { Component } from '@leojs/leo'
-
+import{ Component } from '../lib/compile-app/app'
+import Index from './pages/index'
 import './app.css'
 
 class App extends Component {

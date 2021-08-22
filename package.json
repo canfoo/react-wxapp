@@ -4,7 +4,9 @@
   "description": "react-wxapp",
   "main": "index.js",
   "scripts": {
-    "build": "rm -fr lib && babel packages --out-dir lib --extensions \".js,.ts\""
+    "build:lib": "rm -fr lib && babel packages --out-dir lib --extensions \".js,.ts\"",
+    "build:lib-watch": "babel packages --out-dir lib --extensions \".js,.ts\" --watch",
+    "dev": "node ./lib/compile-core/index"
   },
   "repository": {
     "type": "git",
@@ -37,11 +39,12 @@
     "fs-extra": "^7.0.0",
     "getopts": "^2.2.3",
     "loader-utils": "^1.2.3",
-    "webpack": "^5.49.0",
+    "webpack": "^4.41.2",
     "webpack-bundle-analyzer": "^3.6.0"
   },
   "homepage": "https://github.com/canfoo/react-wxapp#readme",
   "devDependencies": {
+    "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.15.0"
   }
 }
