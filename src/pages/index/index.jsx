@@ -1,8 +1,8 @@
-import { Component } from '../../../lib/compile-app/app'
-import { View, Text } from '../../../lib/compile-app/component'
-// import './index.css'
+import React, { Component } from 'react'
+import { View, Text } from '@leo/components'
+import './index.css'
 
-class Index extends Component {
+export default class Index extends Component {
   constructor() {
     super()
     this.state = {

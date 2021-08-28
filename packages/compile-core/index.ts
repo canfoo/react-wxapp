@@ -1,5 +1,5 @@
 import colors from 'colors'
-import pack from './webpack'
+import build from './build'
 
 colors.setTheme({
     silly: 'rainbow',
@@ -14,4 +14,4 @@ colors.setTheme({
     error: 'red'
 });
 
-pack()
+build()

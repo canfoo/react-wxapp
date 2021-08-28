@@ -1,7 +1,7 @@
 module.exports = {
   pages: ['pages/index/index'],
   window: {
-    navigationBarTitleText: 'Remax Wechat Template',
+    navigationBarTitleText: 'react-wxapp',
     navigationBarBackgroundColor: '#282c34'
   }
 };

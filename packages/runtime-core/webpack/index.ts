@@ -76,7 +76,7 @@ export default function pack() {
                         }
                     },
                     {
-                        loader: path.resolve(__dirname, 'info-loader.js')
+                        loader: path.resolve(__dirname, 'parse-loader.js')
                     }
                 ]
             }]
@@ -101,7 +101,7 @@ export default function pack() {
                     console.log(`${err}`.error)
                 })
             }
-            
+
             if (stats.hasErrors()) {
                 info.errors.forEach(err => {
                     console.log(`${err}`.error)

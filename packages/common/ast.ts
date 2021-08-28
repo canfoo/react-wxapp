@@ -2,7 +2,7 @@ import { parse, ParserPlugin } from '@babel/parser'
 import generator from '@babel/generator'
 
 
-export function parseCode(code, extname) {
+export function parseCode(code, extname = 'jsx') {
     const plugins: ParserPlugin[] = [
         'classProperties',
         'objectRestSpread',
