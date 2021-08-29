@@ -1,1 +1,0 @@
-export const aa = function() {console.log('aa')}

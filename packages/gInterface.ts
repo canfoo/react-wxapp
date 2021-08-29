@@ -1,5 +1,4 @@
 interface String {
-
     // @ts-ignore
     error: any;
     // @ts-ignore
