@@ -6,8 +6,8 @@
   "scripts": {
     "build:lib": "rm -fr lib && babel packages --out-dir lib --extensions \".js,.ts\"",
     "build:lib.watch": "babel packages --out-dir lib --extensions \".js,.ts\" --watch",
-    "build:src": "node ./lib/compile-core/index",
-    "build:compile": "npm run build:lib && npm run build:src"
+    "compile": "node ./lib/compile-core/index",
+    "build:compile": "npm run build:lib && npm run compile"
   },
   "repository": {
     "type": "git",
