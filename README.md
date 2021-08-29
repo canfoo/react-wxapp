@@ -9,7 +9,7 @@
 yarn or npm install
 ```
 
-重编译构建（编译完成后用微信开发者工具打开compile-dist目录，即可观察到src目录的React代码运行到小程序的效果。）
+重编译构建（运行成功后用微信开发者工具导入compile-dist目录）
 
 ```
 npm run build:compile
