@@ -3,8 +3,6 @@ import * as t from "@babel/types";
 import template from '@babel/template'
 import generator from '@babel/generator'
 import { buildBlockElement, findMethodName } from '../../common/util'
-import { kebabCase } from 'lodash'
-
 
 let usedEvents = new Set<string>()
 
@@ -35,7 +33,7 @@ function stringifyAttributes (input) {
 
 }
 
-function createHTMLElement(options) {
+function createWXMLLElement(options) {
   options = Object.assign(
     {
       name: 'div',
@@ -116,8 +114,8 @@ function parseJSXElement(element) {
       return obj
     }, {})
   }
-  let eLe = createHTMLElement({
-    name: kebabCase(componentName),
+  let eLe = createWXMLLElement({
+    name: componentName,
     attributes: attributesTrans,
     value: parseJSXChildren(children)
   })
@@ -168,10 +166,28 @@ function setCustomEvent (renderPath) {
       }
     }
   })
+  
   renderPath.traverse({
     BlockStatement (path) {
-      path.node.body = []
-      path.node.body.unshift(template('this.__state = arguments[0] || this.state || {};')())
+      const vars = path.node.body.filter(node => (t.isVariableDeclaration(node))).reduce((p, c) => {
+        c.declarations.forEach(n => {
+          if (t.isVariableDeclarator(n) && t.isIdentifier(n.id)) {
+            p.push(n.id.name)
+          }
+        })
+        return p
+      }, [])
+      path.node.body.unshift(template(`
+        this.__state = arguments[0];
+      `)())
+      path.node.body[path.node.body.length - 1] = template(`
+        Object.assign(this.__state, {
+          ${vars.map(i => `${i}: ${i},`).join(',')}
+        });
+      `)()
+      path.node.body.push(template(`
+        return this.__state
+      `)())
     }
   })
 

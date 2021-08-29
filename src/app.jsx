@@ -1,4 +1,3 @@
-import './app.css';
 
 const App = props => props.children;
 
