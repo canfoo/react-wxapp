@@ -1,34 +1,49 @@
 import React, { Component } from 'react'
-import { View, Text } from '@leo/components'
+import { View, Text, Button } from '@leo/components'
 import './index.css'
 
 export default class Index extends Component {
   constructor() {
     super()
     this.state = {
-      status: 10
+      count: 0
     }
-    this.handleClick = this.handleClick.bind(this)
+    this.onAddClick = this.onAddClick.bind(this)
+    this.onReduceClick = this.onReduceClick.bind(this)
   }
   componentDidMount () {
-    console.log('加载')
-  }
-  handleClick() {
+    console.log('执行componentDidMount')
     this.setState({
-      status: this.state.status + 1
+      count: 1
+    })
+  }
+  onAddClick() {
+    this.setState({
+      count: this.state.count + 1
+    })
+  }
+  onReduceClick() {
+    this.setState({
+      count: this.state.count - 1
     })
   }
   render () {
-    const text = this.state.status % 2 === 0 ? '偶数' : '奇数'
+    const text = this.state.count % 2 === 0 ? '偶数' : '奇数'
+
     return (
-      <View className='container'>
-        <View onClick={this.handleClick} className="btn">
-          <Text>加1</Text>
+      <View className="container">
+        <View className="conut">
+          <Text>count: {this.state.count}</Text>
         </View>
-        <View className="num">
-          <Text>num：{ this.state.status }</Text>
-          <Text>{text}</Text>
+        <View>
+          <Text className="text">{text}</Text>
         </View>
+        <Button onClick={this.onAddClick} className="btn">
+          +1
+        </Button>
+        <Button onClick={this.onReduceClick} className="btn">
+          -1
+        </Button>
       </View>
     )
   }
