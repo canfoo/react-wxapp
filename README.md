@@ -7,7 +7,7 @@
 安装依赖
 
 ```
-yarn or npm install
+npm install
 ```
 
 重编译构建（运行成功后用微信开发者工具导入compile-dist目录）
