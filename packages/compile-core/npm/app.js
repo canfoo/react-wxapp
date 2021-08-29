@@ -12,6 +12,7 @@ export class Component {
 
 
 function update($component, state = {}) {
+  $component.state = Object.assign($component.state, state)
   let data = $component.createData(state)
   data['$leoCompReady'] = true
   $component.state = data
