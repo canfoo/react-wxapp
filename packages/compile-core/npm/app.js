@@ -1,3 +1,8 @@
+import reactReconciler from 'react-reconciler'
+// require('react')
+
+console.log('reactReconciler', reactReconciler)
+
 export class Component {
   constructor() {
     this.state = {}

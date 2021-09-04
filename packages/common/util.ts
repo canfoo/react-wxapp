@@ -47,3 +47,14 @@ export function findMethodName(expression) {
 export function getRelativeAppPath(dir) {
   return path.relative(dir, path.join(outputCompileRoot, '/npm/app.js'))
 }
+
+export function judgeLibPath(relativePath) {
+  if (relativePath.startsWith('/')
+      || relativePath.startsWith('.')
+  ) {
+      return false
+  }
+
+  return true
+}
+
