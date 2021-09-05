@@ -3,7 +3,7 @@ import * as fse from 'fs-extra'
 import { outputCompileRoot, inputRoot } from '../common/const'
 import { emptyDir, getRelativeAppPath } from '../common/util'
 import babel from '../common/babel'
-import { config } from './configure'
+import { config } from '../common/configure'
 import tarnsform from './transform'
 
 async function buildSinglePage(page) {
@@ -32,7 +32,7 @@ async function buildSinglePage(page) {
 
     result.code = `
 ${resCode.code}    
-Component(require('${relativeAppPath}').createComponent(${result.className}))
+Page(require('${relativeAppPath}').createPage(${result.className}))
     `
     fse.writeFileSync(outputPageJSONPath, result.json)
     console.log(`输出文件：${outputCompileRoot}/${page}.json`.info)

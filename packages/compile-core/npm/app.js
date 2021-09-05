@@ -1,8 +1,3 @@
-import reactReconciler from 'react-reconciler'
-// require('react')
-
-console.log('reactReconciler', reactReconciler)
-
 export class Component {
   constructor() {
     this.state = {}
@@ -24,37 +19,32 @@ function update($component, state = {}) {
   $component.$scope.setData(data)
 }
 
-function bindEvents(option, events) {
-  option.methods = option.methods || {}
-  const target = option.methods
-  events.forEach(eventHandlerName => {
-    if (target[eventHandlerName]) return
-    target[eventHandlerName] = function () {
-      this.$component[eventHandlerName].call(this.$component)
-    }
-  })
-}
-
-export function createComponent(ComponentClass) {
+export function createPage(ComponentClass) {
   const componentInstance = new ComponentClass()
   const initData = componentInstance.state
   const option = {
     data: initData,
-    created() {
+    onLoad() {
       this.$component = new ComponentClass()
       this.$component._init(this)
+      update(this.$component, this.$component.state)
+    },
+    onReady() {
+      if (typeof this.$component.componentDidMount === 'function') {
+        this.$component.componentDidMount()
+      }
     }
   }
-  option.methods = option.methods || {}
-  option.methods['onLoad'] = function () {
-    update(this.$component, this.$component.state)
+
+  const events = ComponentClass['$$events']
+  if (events) {
+    events.forEach(eventHandlerName => {
+      if (option[eventHandlerName]) return
+      option[eventHandlerName] = function () {
+        this.$component[eventHandlerName].call(this.$component)
+      }
+    })
   }
-  option.methods['onReady'] = function () {
-    if (typeof this.$component.componentDidMount === 'function') {
-      this.$component.componentDidMount()
-    }
-  }
-  ComponentClass['$$events'] && bindEvents(option, ComponentClass['$$events'])
 
   return option
 }
