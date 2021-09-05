@@ -2,7 +2,7 @@ import * as path from 'path'
 import * as fse from 'fs-extra'
 import * as t from "@babel/types";
 import generator from '@babel/generator'
-import { outputCompileRoot } from './const'
+import { outputDir } from './const'
 
 export function emptyDir(dir, ignoreArr) {
   const allFiles = fse.readdirSync(dir)
@@ -45,7 +45,7 @@ export function findMethodName(expression) {
 }
 
 export function getRelativeAppPath(dir) {
-  return path.relative(dir, path.join(outputCompileRoot, '/npm/app.js'))
+  return path.relative(dir, path.join(outputDir, '/npm/app.js'))
 }
 
 export function judgeLibPath(relativePath) {

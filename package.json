@@ -6,10 +6,10 @@
   "scripts": {
     "build:lib": "rm -fr lib && babel packages --out-dir lib --extensions \".js,.ts\"",
     "build:lib.watch": "babel packages --out-dir lib --extensions \".js,.ts\" --watch",
-    "compile": "node ./lib/compile-core/index",
-    "runtime": "node ./lib/runtime-core/index",
+    "compile": "cross-env BUILE_ENV=compile node ./lib/compile-core/index",
+    "runtime": "cross-env BUILE_ENV=runtime node ./lib/runtime-core/index",
     "build:compile": "npm run build:lib && npm run compile",
-    "build:runtime": "npm run build:lib && npm run compile"
+    "build:runtime": "npm run build:lib && npm run runtime"
   },
   "repository": {
     "type": "git",
@@ -52,7 +52,8 @@
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.15.0",
     "@types/node": "^12.12.11",
-    "babel-plugin-define-variables": "^0.0.3"
+    "babel-plugin-define-variables": "^0.0.3",
+    "cross-env": "^7.0.3"
   },
   "config": {
     "commitizen": {

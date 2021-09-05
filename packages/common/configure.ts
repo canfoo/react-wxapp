@@ -1,4 +1,4 @@
-import { inputRoot } from '../common/const'
+import { inputRoot } from './const'
 require(`${inputRoot}/app.config.js`)
 
 interface Config {

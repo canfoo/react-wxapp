@@ -1,6 +1,6 @@
 import * as path from 'path'
 import * as fse from 'fs-extra'
-import { outputCompileRoot, inputRoot } from '../common/const'
+import { outputDir, inputRoot } from '../common/const'
 import { emptyDir, getRelativeAppPath } from '../common/util'
 import babel from '../common/babel'
 import { config } from '../common/configure'
@@ -9,7 +9,7 @@ import tarnsform from './transform'
 async function buildSinglePage(page) {
     const pagePath = path.join(inputRoot, `${page}`)
     const pageJs = `${pagePath}.jsx`
-    const outPageDirPath = path.join(outputCompileRoot, page)
+    const outPageDirPath = path.join(outputDir, page)
     console.log(`开始处理：${inputRoot}/${page} ...`.info)
 
     const code = fse.readFileSync(pageJs).toString()
@@ -35,13 +35,13 @@ ${resCode.code}
 Page(require('${relativeAppPath}').createPage(${result.className}))
     `
     fse.writeFileSync(outputPageJSONPath, result.json)
-    console.log(`输出文件：${outputCompileRoot}/${page}.json`.info)
+    console.log(`输出文件：${outputDir}/${page}.json`.info)
     fse.writeFileSync(outputPageJSPath, result.code)
-    console.log(`输出文件：${outputCompileRoot}/${page}.js`.info)
+    console.log(`输出文件：${outputDir}/${page}.js`.info)
     fse.writeFileSync(outputPageWXMLPath, result.wxml)
-    console.log(`输出文件：${outputCompileRoot}/${page}.wxml`.info)
+    console.log(`输出文件：${outputDir}/${page}.wxml`.info)
     fse.writeFileSync(outputPageWXSSPath, result.style)
-    console.log(`输出文件：${outputCompileRoot}/${page}.wxss`.info)
+    console.log(`输出文件：${outputDir}/${page}.wxss`.info)
 }
 
 function buildPages() {
@@ -51,7 +51,7 @@ function buildPages() {
 }
 
 function buildProjectConfig() {
-    fse.writeFileSync(path.join(outputCompileRoot, 'project.config.json'), `
+    fse.writeFileSync(path.join(outputDir, 'project.config.json'), `
 {
     "miniprogramRoot": "./",
     "projectname": "app",
@@ -69,24 +69,24 @@ function buildProjectConfig() {
 }
 
 function buildEntry() {
-    fse.writeFileSync(path.join(outputCompileRoot, './app.js'), `App({})`)
-    fse.writeFileSync(path.join(outputCompileRoot, './app.json'), JSON.stringify(config, undefined, 2))
+    fse.writeFileSync(path.join(outputDir, './app.js'), `App({})`)
+    fse.writeFileSync(path.join(outputDir, './app.json'), JSON.stringify(config, undefined, 2))
 }
 
 async function copyNpm() {
     const fileContent = fse.readFileSync(path.join(__dirname, './npm/app.js')).toString()
-    const outputNpmPath = path.join(outputCompileRoot, '/npm/app.js')
+    const outputNpmPath = path.join(outputDir, '/npm/app.js')
     let resCode = await babel(fileContent, outputNpmPath)
     fse.ensureDirSync(path.dirname(outputNpmPath))
     fse.writeFileSync(outputNpmPath, resCode.code)
 }
 
 export default async function build() {
-    if (!fse.existsSync(outputCompileRoot)) {
-        fse.ensureDirSync(outputCompileRoot)
+    if (!fse.existsSync(outputDir)) {
+        fse.ensureDirSync(outputDir)
     }
 
-    emptyDir(outputCompileRoot, new Set([
+    emptyDir(outputDir, new Set([
         'project.config.json'
     ]))
 
@@ -95,6 +95,4 @@ export default async function build() {
     await buildEntry()
     await buildProjectConfig()
 
-    console.log('')
-    console.log(`编译完成`.info)
 }

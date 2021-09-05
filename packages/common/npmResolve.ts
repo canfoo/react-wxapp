@@ -5,7 +5,7 @@ import generator from '@babel/generator'
 import * as npath from 'path'
 import { parseCode } from './ast'
 import { judgeLibPath } from './util'
-import { outputCompileRoot } from './const'
+import { outputDir } from './const'
 import babel from './babel'
 
 const fileContent = new Map<string, any>()
@@ -30,7 +30,7 @@ function getWxRelativePath(path, filePath) {
 }
 
 function resloveWxNpmPath(path) {
-    return npath.join(outputCompileRoot, getWxNpmPath(path))
+    return npath.join(outputDir, getWxNpmPath(path))
 }
 
 function addJsFile(name) {
@@ -85,6 +85,14 @@ async function copyNpmToWX(filePath, npmPath, isRoot = false) {
     }
 }
 
+function parseNpm(sourcePath, filePath) {
+    const npmPath = npath.join(npath.resolve('.'), 'node_modules', sourcePath)
+    const packagejson = require(npath.join(npmPath, 'package.json'))
+    const mainPath = npath.join(npmPath, packagejson.main)
+    copyNpmToWX(mainPath, npmPath, true)
+    return getWxRelativePath(mainPath, filePath)
+}
+
 export default async function npmResolve(code, filePath) {
     const ast = parseCode(code)
     traverse(ast, {
@@ -92,14 +100,15 @@ export default async function npmResolve(code, filePath) {
             if (t.isIdentifier(path.node.callee, {name: 'require'})) {
                 const sourcePath = path.node.arguments[0].value
                 if (judgeLibPath(sourcePath)) {
-                    const npmPath = npath.join(npath.resolve('.'), 'node_modules', sourcePath)
-                    const packagejson = require(npath.join(npmPath, 'package.json'))
-                    const mainPath = npath.join(npmPath, packagejson.main)
-                    copyNpmToWX(mainPath, npmPath, true)
-                    path.node.arguments[0].value = getWxRelativePath(mainPath, filePath)
+                    path.node.arguments[0].value = parseNpm(sourcePath, filePath)
                 }
             }
-            
+        },
+        ImportDeclaration(path) {
+            const sourcePath = path.node.source.value
+            if (judgeLibPath(sourcePath)) {
+                path.node.source.value = parseNpm(sourcePath, filePath)
+            }
         }
     })
 
