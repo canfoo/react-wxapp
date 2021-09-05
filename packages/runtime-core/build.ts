@@ -2,7 +2,7 @@ import * as path from 'path'
 import * as fse from 'fs-extra'
 import babel from '../common/babel'
 import { outputDir, inputRoot } from '../common/const'
-import { emptyDir, getRelativeAppPath } from '../common/util'
+import { emptyDir, getRelativeAppPath, getRelativeComponentPath } from '../common/util'
 import { config } from '../common/configure'
 import tarnsform from './transform'
 
@@ -19,19 +19,24 @@ async function buildSinglePage(page) {
     const outputPageWXSSPath = `${outPageDirPath}.wxss`
     const sourceDirPath = path.dirname(pagePath)
     const relativeAppPath = getRelativeAppPath(path.dirname(outPageDirPath))
+    const relativeComponentsPath = getRelativeComponentPath(path.dirname(outPageDirPath))
 
     const result = tarnsform({
         code,
         sourceDirPath,
-        relativeAppPath
+        relativeAppPath,
+        relativeComponentsPath
     })
 
     fse.ensureDirSync(path.dirname(outputPageJSPath))
     let resCode = await babel(result.code, outputPageJSPath)
-
+    result.code = `
+${resCode.code}    
+Page(require('${relativeAppPath}').createPage(${result.className}))
+    `
     fse.writeFileSync(outputPageJSONPath, result.json)
     console.log(`输出文件：${outputDir}/${page}.json`.info)
-    fse.writeFileSync(outputPageJSPath, resCode.code)
+    fse.writeFileSync(outputPageJSPath, result.code)
     console.log(`输出文件：${outputDir}/${page}.js`.info)
     fse.writeFileSync(outputPageWXMLPath, result.wxml)
     console.log(`输出文件：${outputDir}/${page}.wxml`.info)
@@ -69,11 +74,16 @@ function buildEntry() {
 }
 
 async function copyNpm() {
-    const fileContent = fse.readFileSync(path.join(__dirname, './npm/app.js')).toString()
-    const outputNpmPath = path.join(outputDir, '/npm/app.js')
-    let resCode = await babel(fileContent, outputNpmPath)
-    fse.ensureDirSync(path.dirname(outputNpmPath))
-    fse.writeFileSync(outputNpmPath, resCode.code)
+    const allFiles = await fse.readdirSync(path.join(__dirname, './npm'))
+    allFiles.forEach(async (fileName) => {
+        const _fileName = `./npm/${fileName}`
+        const fileContent = fse.readFileSync(path.join(__dirname, _fileName)).toString()
+        const outputNpmPath = path.join(outputDir, _fileName)
+        let resCode = await babel(fileContent, outputNpmPath)
+        fse.ensureDirSync(path.dirname(outputNpmPath))
+        fse.writeFileSync(outputNpmPath, resCode.code)
+    })
+    
 }
 
 

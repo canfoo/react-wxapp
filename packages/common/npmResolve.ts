@@ -41,7 +41,8 @@ function addJsFile(name) {
 }
 
 async function copyNpmToWX(filePath, npmPath, isRoot = false) {
-    if (fileContent.has(filePath)) {
+    // react-reconciler.development.js 文件太大，且没有用到，影响拷贝性能，可以过滤掉。
+    if (fileContent.has(filePath) || filePath.indexOf('react-reconciler.development') > -1) {
         return
     }
     const code = fse.readFileSync(filePath).toString()

@@ -11,12 +11,13 @@ interface TarnsformOption {
 	code: string
 	sourceDirPath: string
 	relativeAppPath: string
+    relativeComponentsPath: string
 }
 
 export default function tarnsform(options: TarnsformOption) {
 	let code = options.code
 	const sourceDirPath = options.sourceDirPath
-	const relativeAppPath = options.relativeAppPath
+	const relativeComponentsPath = options.relativeComponentsPath
 	const ast = parseCode(code)
 	let outTemplate = null
 	let style = null
@@ -29,6 +30,9 @@ export default function tarnsform(options: TarnsformOption) {
 		},
 		ImportDeclaration(path) {
 			const source = path.node.source.value
+            if (source === LEO_COMPONENTS_NAME) {
+                path.node.source.value = relativeComponentsPath
+            }
 			if (/css$/.test(source)) {
 				let cssPath = npath.join(sourceDirPath, source)
 				style = fse.readFileSync(cssPath).toString().replace(/px/g, 'rpx')
@@ -36,12 +40,9 @@ export default function tarnsform(options: TarnsformOption) {
 		}
 	})
 
-	outTemplate = 'Comonent({})'
+	outTemplate = '<view>123</view>'
 
-	ast.program.body = ast.program.body.filter(item => (
-		!(t.isImportDeclaration(item) && item.source.value === LEO_COMPONENTS_NAME)
-		&& !(t.isImportDeclaration(item) && /css$/.test(item.source.value))
-	))
+	ast.program.body = ast.program.body.filter(item => (!(t.isImportDeclaration(item) && /css$/.test(item.source.value))))
 
 	code = generator(ast).code
 	result.code = code

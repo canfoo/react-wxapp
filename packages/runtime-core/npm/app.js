@@ -1,3 +1,1 @@
-import react from 'react'
-
-console.log('xxx', react)
+export { default as createPage } from './createPageConfig'

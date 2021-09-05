@@ -48,6 +48,10 @@ export function getRelativeAppPath(dir) {
   return path.relative(dir, path.join(outputDir, '/npm/app.js'))
 }
 
+export function getRelativeComponentPath(dir) {
+  return path.relative(dir, path.join(outputDir, '/npm/components.js'))
+}
+
 export function judgeLibPath(relativePath) {
   if (relativePath.startsWith('/')
       || relativePath.startsWith('.')
