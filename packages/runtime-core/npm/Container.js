@@ -14,12 +14,27 @@ export default class Container {
     this.rootKey = rootKey;
   }
 
-  applyUpdate() {
- 
+  toJson(nodes ,data) {
+    const json = data || []
+    nodes.forEach(node => {
+      const nodeData = {
+        type: node.type,
+        props: node.props,
+        text: node.text,
+        children: []
+      }
+      if (node.children) {
+        this.toJson(node.children, nodeData.children)
+      }
+      json.push(nodeData)
+    })
+    return json
+  }
 
-    console.log('this.root', this.root)
-    // this.context.setData(updatePayload, () => {
-    // });
+  applyUpdate() {
+    const root = this.toJson([this.root])[0]
+    console.log('root', root)
+    this.context.setData({ root});
   }
 
   clearUpdate() {

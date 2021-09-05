@@ -40,7 +40,10 @@ export default function tarnsform(options: TarnsformOption) {
 		}
 	})
 
-	outTemplate = '<view>123</view>'
+	outTemplate = `
+<import src="/base.wxml"/>
+<template is="TPL" data="{{root: root}}" />
+    `
 
 	ast.program.body = ast.program.body.filter(item => (!(t.isImportDeclaration(item) && /css$/.test(item.source.value))))
 

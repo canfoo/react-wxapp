@@ -62,14 +62,6 @@ export default function createPageConfig(Page) {
       this.pageId = generatePageId();
 
       this.lifecycleCallback = {};
-      this.data = {
-        root: {
-          children: [],
-        },
-        modalRoot: {
-          children: [],
-        },
-      };
 
       this.query = query;
       this.container = new Container(this, 'root');

@@ -5,6 +5,7 @@ import { outputDir, inputRoot } from '../common/const'
 import { emptyDir, getRelativeAppPath, getRelativeComponentPath } from '../common/util'
 import { config } from '../common/configure'
 import tarnsform from './transform'
+import { baseWxml } from './template/base'
 
 async function buildSinglePage(page) {
     const pagePath = path.join(inputRoot, `${page}`)
@@ -83,6 +84,11 @@ async function copyNpm() {
         fse.ensureDirSync(path.dirname(outputNpmPath))
         fse.writeFileSync(outputNpmPath, resCode.code)
     })
+
+    const outputBaseWxml = path.join(outputDir, '/base.wxml')
+    fse.ensureDirSync(path.dirname(outputBaseWxml))
+    fse.writeFileSync(outputBaseWxml, baseWxml)
+
     
 }
 
