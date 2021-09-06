@@ -1,8 +1,8 @@
 import * as path from 'path'
 
-export const outputCompileRoot = path.join(path.resolve('.'), 'compile-dist')
+export const outputCompileRoot = path.join(path.resolve('.'), 'dist/compile')
 
-export const outputRuntimeRoot = path.join(path.resolve('.'), 'runtime-dist')
+export const outputRuntimeRoot = path.join(path.resolve('.'), 'dist/runtime')
 
 export const outputDir =  process.env.BUILE_ENV === 'runtime' ? outputRuntimeRoot : outputCompileRoot
 
