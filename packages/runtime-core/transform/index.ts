@@ -28,6 +28,16 @@ export default function tarnsform(options: TarnsformOption) {
 		ClassDeclaration(path) {
 			className = path.node.id.name
 		},
+        JSXAttribute (path) {
+            const node = path.node
+            const attributeName = node.name.name
+            if (attributeName === 'className') {
+              path.node.name.name = 'class'
+            }
+            if (attributeName === 'onClick') {
+              path.node.name.name = 'bindtap'
+            }
+        },
 		ImportDeclaration(path) {
 			const source = path.node.source.value
             if (source === LEO_COMPONENTS_NAME) {

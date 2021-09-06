@@ -19,8 +19,9 @@ export default class Container {
     nodes.forEach(node => {
       const nodeData = {
         type: node.type,
-        props: node.props,
+        props: node.props || {},
         text: node.text,
+        id: node.id,
         children: []
       }
       if (node.children) {
@@ -32,8 +33,9 @@ export default class Container {
   }
 
   applyUpdate() {
+    console.log('this.root', this.root)
     const root = this.toJson([this.root])[0]
-    console.log('root', root)
+    console.log('json', root)
     this.context.setData({ root});
   }
 
@@ -42,11 +44,7 @@ export default class Container {
   }
 
   createCallback(name, fn) {
-    // this.context[name] = (...args) => {
-    //   return unstable_batchedUpdates(args => {
-    //     return fn(...args);
-    //   }, args);
-    // };
+    this.context[name] = fn
   }
 
   appendChild(child) {

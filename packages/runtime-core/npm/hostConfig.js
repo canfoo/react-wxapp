@@ -22,7 +22,7 @@ function processProps(newProps, node, id) {
   for (const propKey of Object.keys(newProps)) {
     if (typeof newProps[propKey] === 'function') {
       const contextKey = `${REMAX_METHOD}_${id}_${propKey}`;
-    //   node.container.createCallback(contextKey, createCallbackProxy(propKey, node, newProps[propKey]));
+      node.container.createCallback(contextKey, newProps[propKey]);
       props[propKey] = contextKey;
     } else if (propKey === 'style') {
       props[propKey] = newProps[propKey] || '';
