@@ -4,7 +4,6 @@ import { generate } from './util';
 export default class Container {
   constructor(context, rootKey = 'root') {
     this.context = context;
-    this.updateQueue = []
     this.root = new VNode({
       id: generate(),
       type: 'root',
@@ -37,10 +36,6 @@ export default class Container {
     const root = this.toJson([this.root])[0]
     console.log('json', root)
     this.context.setData({ root});
-  }
-
-  clearUpdate() {
-    this.stopUpdate = true;
   }
 
   createCallback(name, fn) {

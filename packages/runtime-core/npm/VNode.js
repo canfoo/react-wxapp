@@ -9,7 +9,6 @@ export default class VNode {
   appendChild(node) {
     this.removeChild(node);
     node.parent = this;
-    node.deleted = false; // 交换节点时删除的节点会被复用
 
     if (!this.firstChild) {
       this.firstChild = node;
@@ -55,7 +54,6 @@ export default class VNode {
   insertBefore(node, referenceNode) {
     this.removeChild(node);
     node.parent = this;
-    node.deleted = false; // 交换节点时删除的节点会被复用
 
     if (referenceNode === this.firstChild) {
       this.firstChild = node;
@@ -70,10 +68,6 @@ export default class VNode {
     node.nextSibling = referenceNode;
   }
 
-  update(payload) {
-
-  }
-
   get children() {
     const arr = [];
     let item = this.firstChild;
@@ -84,14 +78,5 @@ export default class VNode {
     }
 
     return arr;
-  }
-
-
-  isMounted() {
-    return this.parent ? this.parent.isMounted() : this.mounted;
-  }
-
-  isDeleted() {
-    return this.deleted === true ? this.deleted : this.parent?.isDeleted() ?? false;
   }
 }

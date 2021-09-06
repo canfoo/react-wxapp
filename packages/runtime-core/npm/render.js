@@ -3,14 +3,6 @@ import hostConfig from './hostConfig';
 
 export const ReactReconcilerInst = ReactReconciler(hostConfig);
 
-if (process.env.NODE_ENV === 'development') {
-  ReactReconcilerInst.injectIntoDevTools({
-    bundleType: 1,
-    version: '16.13.1',
-    rendererPackageName: 'remax',
-  });
-}
-
 function getPublicRootInstance(container) {
   const containerFiber = container.current;
   if (!containerFiber.child) {

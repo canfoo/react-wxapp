@@ -1,8 +1,9 @@
 import * as scheduler from 'scheduler';
-import { REMAX_METHOD, TYPE_TEXT } from './constants';
+import { TYPE_TEXT } from './constants';
 import { generate } from './util';
 import VNode from './VNode';
-// import { createCallbackProxy } from '../SyntheticEvent/createCallbackProxy';
+
+const METHOD = '$REACT_FN'
 
 const {
   unstable_scheduleCallback: scheduleDeferredCallback,
@@ -11,17 +12,12 @@ const {
   unstable_now: now,
 } = scheduler;
 
-const DOM_TAG_MAP = {
-  span: 'text',
-  div: 'view',
-  img: 'image',
-};
 
 function processProps(newProps, node, id) {
   const props = {};
   for (const propKey of Object.keys(newProps)) {
     if (typeof newProps[propKey] === 'function') {
-      const contextKey = `${REMAX_METHOD}_${id}_${propKey}`;
+      const contextKey = `${METHOD}_${id}_${propKey}`;
       node.container.createCallback(contextKey, newProps[propKey]);
       props[propKey] = contextKey;
     } else if (propKey === 'style') {
@@ -78,7 +74,7 @@ export default {
     const id = generate();
     const node = new VNode({
       id,
-      type: DOM_TAG_MAP[type] ?? type,
+      type,
       props: {},
       container,
     });
@@ -102,7 +98,6 @@ export default {
   commitTextUpdate(node, oldText, newText) {
     if (oldText !== newText) {
       node.text = newText;
-      node.update();
     }
   },
 
@@ -112,7 +107,6 @@ export default {
 
   commitUpdate(node, updatePayload, type, oldProps, newProps) {
     node.props = processProps(newProps, node, node.id);
-    node.update(updatePayload);
   },
 
   appendInitialChild: (parent, child) => {
@@ -152,22 +146,18 @@ export default {
     const originStyle = instance.props?.style;
     const newStyle = Object.assign({}, originStyle || {}, { display: 'none' }); // 微信和阿里的小程序都不支持在内联样式中加`important!`
     instance.props = Object.assign({}, instance.props || {}, { style: newStyle });
-    instance.update();
   },
 
   hideTextInstance(instance) {
     instance.text = '';
-    instance.update();
   },
 
   unhideInstance(instance, props) {
     instance.props = props;
-    instance.update();
   },
 
   unhideTextInstance(instance, text) {
     instance.text = text;
-    instance.update();
   },
 
   schedulePassiveEffects: scheduleDeferredCallback,
