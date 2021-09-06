@@ -10,13 +10,15 @@
 npm install
 ```
 
-重编译构建（运行成功后用微信开发者工具导入compile-dist目录）
+重编译构建（构建成功后用微信开发者工具导入 /dist/compile 目录）
 
 ```
 npm run build:compile
 ```
 
 
-重运行构建
+重运行构建（构建成功后用微信开发者工具导入 /dist/runtime 目录）
 
-*TODO*
+```
+npm run build:runtime
+```
