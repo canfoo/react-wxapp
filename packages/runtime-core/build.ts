@@ -94,7 +94,6 @@ async function copyNpm() {
 
 
 export default async function build() {
-    console.log('outputDir', outputDir)
     if (!fse.existsSync(outputDir)) {
         fse.ensureDirSync(outputDir)
     }
@@ -107,5 +106,4 @@ export default async function build() {
     await buildPages()
     await buildEntry()
     await buildProjectConfig()
-
 }

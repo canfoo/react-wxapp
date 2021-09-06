@@ -1,7 +1,6 @@
 import * as path from 'path'
 import * as fse from 'fs-extra'
 import * as t from "@babel/types";
-import generator from '@babel/generator'
 import { outputDir } from './const'
 
 export function emptyDir(dir, ignoreArr) {

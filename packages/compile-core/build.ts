@@ -94,5 +94,4 @@ export default async function build() {
     await buildPages()
     await buildEntry()
     await buildProjectConfig()
-
 }

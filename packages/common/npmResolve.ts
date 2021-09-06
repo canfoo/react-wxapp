@@ -8,7 +8,7 @@ import { judgeLibPath } from './util'
 import { outputDir } from './const'
 import babel from './babel'
 
-const fileContent = new Map<string, any>()
+const fileContent = new Map()
 
 function getDirPath(path) {
     const arr = path.split('/')
