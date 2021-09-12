@@ -1,17 +1,16 @@
-import colors from 'colors'
-import build from './build'
+import * as path from 'path'
+import * as fse from 'fs-extra'
+import { outputDir } from '../common/const'
+import tarnsform from './transform'
+import build from '../common/build'
+import { baseWxml } from './template/base'
 
-colors.setTheme({
-    silly: 'rainbow',
-    input: 'grey',
-    verbose: 'cyan',
-    prompt: 'grey',
-    info: 'green',
-    data: 'grey',
-    help: 'cyan',
-    warn: 'yellow',
-    debug: 'blue',
-    error: 'red'
-});
+async function geneBaseWxml() {
+    const outputBaseWxml = path.join(outputDir, '/base.wxml')
+    fse.ensureDirSync(path.dirname(outputBaseWxml))
+    fse.writeFileSync(outputBaseWxml, baseWxml)    
+}
 
-build()
+build(path.join(__dirname, './npm'), tarnsform).then(() => {
+    geneBaseWxml()
+})

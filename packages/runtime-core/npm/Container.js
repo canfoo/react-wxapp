@@ -32,9 +32,7 @@ export default class Container {
   }
 
   applyUpdate() {
-    console.log('this.root', this.root)
     const root = this.toJson([this.root])[0]
-    console.log('json', root)
     this.context.setData({ root});
   }
 

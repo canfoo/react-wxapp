@@ -1,17 +1,5 @@
-import colors from 'colors'
-import build from './build'
+import * as path from 'path'
+import tarnsform from './transform'
+import build from '../common/build'
 
-colors.setTheme({
-    silly: 'rainbow',
-    input: 'grey',
-    verbose: 'cyan',
-    prompt: 'grey',
-    info: 'green',
-    data: 'grey',
-    help: 'cyan',
-    warn: 'yellow',
-    debug: 'blue',
-    error: 'red'
-});
-
-build()
+build(path.join(__dirname, './npm'), tarnsform)
