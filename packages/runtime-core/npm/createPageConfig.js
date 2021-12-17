@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Container from './container';
+import Container from './Container';
 import render from './render';
 
 export default function createPageConfig(Page) {
