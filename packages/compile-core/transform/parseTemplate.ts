@@ -42,9 +42,10 @@ function createWXMLLElement(options) {
     },
     options
   )
-  let ret = `<${options.name}${stringifyAttributes(options.attributes)}>`
+  const name = options.name.toLocaleLowerCase()
+  let ret = `<${name}${stringifyAttributes(options.attributes)}>`
 
-  ret += `${options.value}</${options.name}>`
+  ret += `${options.value}</${name}>`
   return ret
 }
 
